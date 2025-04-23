@@ -1,0 +1,38 @@
+.loading-container {
+    text-align: center;
+    height: 100vh;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.logo span {
+    color: #ff6e6e;
+}
+
+.spinner {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border: 8px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    border-top-color: #ff6e6e;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    font-size: 1.2rem;
+    color: #cccccc;
+    margin-top: 20px;
+}

@@ -1,0 +1,23 @@
+:root {
+    --backgroundColor: #1e1e2f;
+    --primaryColor: #ff6e6e;
+    --secondaryColor: #6eafff;
+    --primaryText: #ffffff;
+    --secondHighlight: #f3f3f3;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-top: 2px solid var(--primaryColor);
+    margin-top: 50px;
+}
+
+footer p {
+    font-size: 0.9rem;
+    color: var(--secondHighlight);
+}

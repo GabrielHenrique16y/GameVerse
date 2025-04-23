@@ -1,0 +1,66 @@
+:root {
+    --backgroundColor: #1e1e2f;
+    --primaryColor: #ff6e6e;
+    --secondaryColor: #6eafff;
+    --primaryText: #ffffff;
+    --secondHighlight: #f3f3f3;
+}
+
+header {
+    width: 100%;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-bottom: 2px solid var(--primaryColor);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primaryColor), var(--secondaryColor));
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primaryText);
+}
+
+.logo-text span {
+    color: var(--primaryColor);
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    font-size: 1rem;
+    color: var(--secondHighlight);
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: var(--primaryColor);
+}
+
+@media (max-width: 450px) {
+    .logo-text{
+        display: none;
+    }
+}

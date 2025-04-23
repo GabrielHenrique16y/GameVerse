@@ -1,0 +1,29 @@
+:root{
+  --backgroundColor: #1e1e2f;
+  --primaryColor: #ff6e6e;
+  --secondaryColor: #6eafff;
+  --primaryText: #ffffff;
+  --secondHighlight: #f3f3f3;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--backgroundColor);
+  color: var(--primaryText);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+#root{
+  width: 100%;
+}
+
