@@ -8,7 +8,6 @@ export default function PlayListPage(): JSX.Element {
     const { user } = useAuth();
     const [games, setGames] = useState<Game[] | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const getGames = async () => {
@@ -55,9 +54,7 @@ export default function PlayListPage(): JSX.Element {
                 <h1>Jogos Favoritos</h1>
             </div>
             <div className="catalog-grid">
-                { error ? (
-                    <p>{error}</p>
-                ) : games.length > 0 ? (
+                {games.length > 0 ? (
                     games.map((game: Game) => (
                         <div className="catalog-item" key={game.id}>
                             <img
