@@ -1,0 +1,124 @@
+/* Toastify container */
+.Toastify__toast-container {
+    font-family: 'Poppins', sans-serif;
+    z-index: 9999;
+}
+
+/* Posição dos toasts */
+.Toastify__toast-container--top-right {
+    top: 1rem;
+    right: 1rem;
+}
+
+.Toastify__toast-container--top-left {
+    top: 1rem;
+    left: 1rem;
+}
+
+.Toastify__toast-container--bottom-right {
+    bottom: 1rem;
+    right: 1rem;
+}
+
+.Toastify__toast-container--bottom-left {
+    bottom: 1rem;
+    left: 1rem;
+}
+
+/* Toast básico */
+.Toastify__toast {
+    background-color: #2a2a3d;
+    /* Fundo escuro */
+    color: #ffffff;
+    /* Texto branco */
+    border-radius: 8px;
+    /* Bordas arredondadas */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    /* Sombra suave */
+    padding: 16px;
+    /* Espaçamento interno */
+    font-size: 0.9rem;
+    /* Tamanho do texto */
+    line-height: 1.5;
+    /* Altura da linha */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Espaço entre ícone e texto */
+    border-left: 4px solid transparent;
+    /* Linha lateral personalizada */
+}
+
+/* Botão de fechar */
+.Toastify__close-button {
+    color: #ffffff;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.Toastify__close-button:hover {
+    opacity: 1;
+}
+
+.Toastify__toast--enter {
+    animation: slideIn 0.5s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.Toastify__toast--exit {
+    animation: slideOut 0.5s forwards;
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.Toastify__toast--success {
+    border-left-color: #4caf50;
+    background: linear-gradient(135deg, #4caf50, #81c784);
+    font-size: 1.1rem;
+}
+
+.Toastify__toast--error {
+    border-left-color: #f44336;
+    background: linear-gradient(135deg, #f44336, #e57373);
+    font-size: 1.1rem;
+}
+
+/* Toast de aviso */
+.Toastify__toast--warning {
+    border-left-color: #ffa726;
+    background: linear-gradient(135deg, #ffa726, #ffcc80);
+    font-size: 1.1rem;
+}
+
+.Toastify__toast--info {
+    border-left-color: #29b6f6;
+    background: linear-gradient(135deg, #29b6f6, #4fc3f7);
+    font-size: 1.1rem;
+}
+
+.Toastify__toast--default {
+    border-left-color: #6eafff;
+    background: linear-gradient(135deg, #6eafff, #8faeff);
+    font-size: 1.1rem;
+}

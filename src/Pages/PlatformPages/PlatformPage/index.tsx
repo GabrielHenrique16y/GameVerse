@@ -3,9 +3,9 @@ import { useEffect, useState, JSX, useCallback } from "react";
 import './index.css';
 import axios from 'axios';
 
-import PopularPlatforms from "../../interface/PopularPlatforms";
-import Game from "../../interface/Game";
-import Loading from "../../components/Loading";
+import PopularPlatforms from "../../../interface/PopularPlatforms";
+import Game from "../../../interface/Game";
+import Loading from "../../../components/Loading";
 
 
 export default function PlatformPage(): JSX.Element {
@@ -71,9 +71,10 @@ export default function PlatformPage(): JSX.Element {
         getPopularPlatforms();
     }, [getPopularPlatforms]);
 
+    if (loading) return <Loading isLoading={loading} />
+
     return (
         <>
-            <Loading isLoading={loading} />
             <section className="platforms">
                 <h1>Plataformas</h1>
                 <p>Explore os jogos disponíveis para cada plataforma!</p>

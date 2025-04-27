@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 import './index.css';
 import axios from 'axios';
-import Loading from "../../components/Loading";
+import Loading from "../../../components/Loading";
 
-import Game from "../../interface/Game";
+import Game from "../../../interface/Game";
 
 export default function Home(): JSX.Element {
     const [featuredGames, setFeaturedGames] = useState<Game[]>([]);

@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {
@@ -29,9 +29,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         );
 
         res.json(response.data);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-        console.error(error.response?.data || error);
+    } catch (error) {
+        const axiosError = error as AxiosError;
+
+        console.error(axiosError.response?.data || axiosError.message);
         res.status(500).json({ error: 'Erro ao buscar plataformas populares.' });
     }
 }

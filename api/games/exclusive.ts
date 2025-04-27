@@ -1,21 +1,28 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import axios from "axios";
+import * as yup from "yup";
+
+const validationSchema = yup.object().shape({
+    id: yup
+        .number()
+        .required("ID da plataforma é obrigatório.")
+        .positive("ID deve ser um número positivo.")
+        .integer("ID deve ser um número inteiro."),
+});
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { id } = req.body;
 
-    if (!id) {
-        return res.status(400).json({ error: 'ID da plataforma não fornecido.' });
-    }
-
-    const query = `
-        fields name, cover.url, rating, summary, platforms;
-        where platforms = (${id}) & cover != null;
-        sort aggregated_rating desc;
-        limit 50;
-    `;
-
     try {
+        await validationSchema.validate({ id }, { abortEarly: false });
+
+        const query = `
+            fields name, cover.url, rating, summary, platforms;
+            where platforms = (${id}) & cover != null;
+            sort aggregated_rating desc;
+            limit 50;
+        `;
+
         const response = await axios.post(
             'https://api.igdb.com/v4/games',
             query,
@@ -30,9 +37,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         const exclusivos = response.data.filter((game: any) => game.platforms?.length === 1);
 
-        res.json(exclusivos);
+        return res.json(exclusivos);
     } catch (e: any) {
+        if (e instanceof yup.ValidationError) {
+            return res.status(400).json({
+                error: e.errors.join(", "),
+            });
+        }
+
         console.error("Erro na requisição ao IGDB:", e);
-        res.status(500).json({ error: `Erro ao buscar jogos exclusivos da plataforma: ${e.message || e}` });
+        return res.status(500).json({
+            error: `Erro ao buscar jogos exclusivos da plataforma: ${e.message || e}`,
+        });
     }
 }

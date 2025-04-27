@@ -1,24 +1,27 @@
 import { JSX, useCallback, useEffect, useState } from 'react';
 import './index.css';
 import axios from 'axios';
-import Loading from '../../components/Loading';
+import Loading from '../../../components/Loading';
 
-import Game from '../../interface/Game';
-import Genres from '../../interface/Genre';
+import Game from '../../../interface/Game';
+import Genres from '../../../interface/Genre';
 
 export default function CatalogPage(): JSX.Element {
     const [genres, setGenres] = useState<Genres[]>([]);
     const [games, setGames] = useState<Game[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const [search, setSearch] = useState<string>('');
+
+    const [searchInput, setSearchInput] = useState<string>('');
+    const [searchQuery, setSearchQuery] = useState<string>('');
+
     const [selectedGenre, setSelectedGenre] = useState<string>('');
 
     const fetchGames = useCallback(async () => {
-        setLoading(true);
         try {
+            setLoading(true);
             const response = await axios.post('/api/games', {
-                name: search,
+                name: searchQuery,
                 genre: selectedGenre,
             });
             setGames(response.data);
@@ -28,7 +31,7 @@ export default function CatalogPage(): JSX.Element {
             setError('Erro ao carregar os jogos.');
             setLoading(false);
         }
-    }, [search, selectedGenre]);
+    }, [searchQuery, selectedGenre]);
 
     const getGenres = async () => {
         setLoading(true);
@@ -46,7 +49,18 @@ export default function CatalogPage(): JSX.Element {
     useEffect(() => {
         fetchGames();
         getGenres();
-    }, [fetchGames, search, selectedGenre]);
+    }, [fetchGames]);
+
+    const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            setSearchQuery(searchInput);
+        }
+    };
+
+    const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedGenre(e.target.value);
+        setSearchQuery(searchInput);
+    };
 
     const renderStars = (rating: number) => {
         const maxStars = 5;
@@ -54,17 +68,18 @@ export default function CatalogPage(): JSX.Element {
         const fullStars = Math.floor(starRating);
         const halfStar = starRating - fullStars >= 0.5;
         const emptyStars = maxStars - fullStars - (halfStar ? 1 : 0);
-    
+
         return (
             '★'.repeat(fullStars) +
-            (halfStar ? '⯪' : '') + 
+            (halfStar ? '⯪' : '') +
             '☆'.repeat(emptyStars)
         );
     };
 
+    if (loading) return <Loading isLoading={loading} />
+
     return (
         <>
-            <Loading isLoading={loading}/>
             <section className="catalogSection">
                 <div className="title_content">
                     <h1>Catálogo de jogos</h1>
@@ -74,13 +89,14 @@ export default function CatalogPage(): JSX.Element {
                 <div className="catalog-filters">
                     <input
                         type="text"
-                        value={search}
+                        value={searchInput}
                         placeholder="Pesquisar por nome do jogo..."
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        onKeyDown={handleSearch} // detecta Enter
                     />
                     <select
                         value={selectedGenre}
-                        onChange={(e) => setSelectedGenre(e.target.value)}
+                        onChange={handleGenreChange}
                     >
                         <option value="">Todos os Gêneros</option>
                         {genres.map((genre: Genres) => (
@@ -92,7 +108,7 @@ export default function CatalogPage(): JSX.Element {
                 </div>
 
                 <div className="catalog-grid">
-                    { error ? (
+                    {error ? (
                         <p>{error}</p>
                     ) : games.length > 0 ? (
                         games.map((game: Game) => (

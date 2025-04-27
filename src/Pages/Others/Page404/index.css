@@ -1,13 +1,21 @@
+:root {
+    --backgroundColor: #1e1e2f;
+    --primaryColor: #ff6e6e;
+    --secondaryColor: #6eafff;
+    --primaryText: #ffffff;
+    --secondHighlight: #f3f3f3;
+}
+
 .center {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: calc(100vh - 89px - 65px);
 }
 
 .container h1 {
     font-size: 5rem;
-    color: #ff6e6e;
+    color: var(--primaryColor);
 }
 
 .container p {
@@ -21,8 +29,8 @@
     padding: 10px 20px;
     font-size: 1rem;
     font-weight: bold;
-    color: #ffffff;
-    background: linear-gradient(135deg, #ff6e6e, #6eafff);
+    color: var(--primaryText);
+    background: linear-gradient(135deg, var(--primaryColor), var(--secondaryColor));
     border: none;
     border-radius: 5px;
     text-decoration: none;
@@ -30,7 +38,7 @@
 }
 
 .container a:hover {
-    background: linear-gradient(135deg, #6eafff, #ff6e6e);
+    background: linear-gradient(135deg, var(--secondaryColor), var(--primaryColor));
     transform: scale(1.05);
 }
 
@@ -45,10 +53,10 @@
 .logo {
     font-size: 2rem;
     font-weight: bold;
-    color: #ffffff;
+    color: var(--primaryText);
     margin-bottom: 10px;
 }
 
 .logo span {
-    color: #ff6e6e;
+    color: var(--primaryColor);
 }

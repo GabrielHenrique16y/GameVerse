@@ -1,22 +1,33 @@
 import { useEffect, useState, JSX } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 import './index.css';
 
-import axios from "axios";
-import Loading from "../../components/Loading";
+import Loading from "../../../components/Loading";
 
-import Game from '../../interface/Game';
-import Video from '../../interface/Video';
-import Link from '../../interface/Link';
+import Game from '../../../interface/Game';
+import Video from '../../../interface/Video';
+import TypeLink from '../../../interface/Link';
+import { useAuth } from "../../../context/AuthContext";
+import { notifyError, notifySuccess, notifyWarning } from "../../../../_utils/toastMessage";
 
 export default function GameDetails(): JSX.Element {
     const [game, setGame] = useState<Game | null>(null);
     const [video, setVideo] = useState<Video[] | null>(null);
-    const [link, setLink] = useState<Link | null>(null);
+    const [link, setLink] = useState<TypeLink | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
     const { id } = useParams();
+    const navigate = useNavigate()
+
+    const { user, setUser } = useAuth();
+
+    useEffect(() => {
+        const userCookie = Cookies.get('user');
+        const parsedUser = userCookie ? JSON.parse(userCookie) : null;
+        setUser(parsedUser);
+    }, []);
 
     const getFormattedDate = (unixTimestamp?: number) => {
         if (!unixTimestamp) return "Data não disponível";
@@ -43,9 +54,8 @@ export default function GameDetails(): JSX.Element {
                 setGame(gameData);
                 await getLink(gameData.name);
                 setLoading(false);
-            } catch (e) {
-                console.error(e);
-                setError('Erro ao carregar os jogos.');
+            } catch {
+                notifyError('Erro ao carregar os jogos.', '❌');
                 setLoading(false);
             }
         };
@@ -60,9 +70,8 @@ export default function GameDetails(): JSX.Element {
                 const linkResponse = await axios.get(`https://api.rawg.io/api/games/${firstGame.id}/stores?key=a6e8a25ea494453793806fd36b4e38c8`);
                 setLink(linkResponse.data);
                 setLoading(false);
-            } catch (e) {
-                console.error(e);
-                setError('Erro ao buscar link de compra.');
+            } catch {
+                notifyError('Erro ao buscar link de compra.', '❌');
                 setLoading(false);
             }
         };
@@ -77,17 +86,13 @@ export default function GameDetails(): JSX.Element {
             try {
                 const response = await axios.post(`/api/games/video?id=${game.videos[0]}`);
                 setVideo(response.data);
-            } catch (e) {
-                console.error(e);
-                setError('Erro ao carregar vídeo.');
+            } catch {
+                notifyError('Erro ao carregar vídeo.', '❌');
             }
         };
 
         fetchVideo();
     }, [game]);
-
-
-    if (error || !game) return <p>{error || "Jogo não encontrado."}</p>;
 
     const developers = game?.involved_companies
         ?.filter((c) => c.developer)
@@ -108,11 +113,30 @@ export default function GameDetails(): JSX.Element {
         );
     };
 
+    const addToFavoritesBtn = async () => {
+        try {
+            if (!user) {
+                notifyWarning('Você precisa fazer login para adicionar aos favoritos', '⚠️')
+            } else {
+                const response = await axios.post(`/api/playlist/addToGames`, {
+                    game_id: id,
+                    user_id: user?.id,
+                });
+                setVideo(response.data);
+                notifySuccess('Jogo adicionado com sucesso!', '🎮');
+                navigate('/playlist')
+            }
+        } catch {
+            notifyError('Erro ao adicionar aos favoritos.', '❌');
+        }
+    }
+
+    if (loading) return <Loading isLoading={true} />;
+    if (!game) return <p>Jogo não encontrado.</p>;
     const purchaseUrl = link?.results?.[0]?.url;
 
     return (
         <>
-            <Loading isLoading={loading} />
             <section className="game-details">
                 <div className="game-header">
                     {game.cover?.url && (
@@ -127,11 +151,11 @@ export default function GameDetails(): JSX.Element {
                         <p><span>Desenvolvedor: </span>{developers}</p>
                         <div className="game-actions">
                             {purchaseUrl ? (
-                                <a href={purchaseUrl} target="_blank" rel="noopener noreferrer">Comprar Agora</a>
+                                <Link to={purchaseUrl} target="_blank" rel="noopener noreferrer">Comprar Agora</Link>
                             ) : (
-                                <a href="/catalog">Link para compra indisponível</a>
+                                <Link to="/catalog">Link para compra indisponível</Link>
                             )}
-                            <a href="#">Adicionar aos Favoritos</a>
+                            <Link to="#" onClick={addToFavoritesBtn}>Adicionar aos favoritos</Link>
                         </div>
                     </div>
                 </div>
@@ -168,14 +192,13 @@ export default function GameDetails(): JSX.Element {
                                         </p>
                                     )}
                                     <h3>{relatedGame.name}</h3>
-                                    <a href={`/details/${relatedGame.id}`}>Ver Mais</a>
+                                    <Link to={`/details/${relatedGame.id}`}>Ver Mais</Link>
                                 </div>
                             ))}
                         </div>
                     </div>
                 )}
             </section>
-            {error && <div className="error-message">{error}</div>}
         </>
     );
 }

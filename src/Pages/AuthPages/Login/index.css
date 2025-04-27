@@ -1,0 +1,74 @@
+:root {
+    --backgroundColor: #1e1e2f;
+    --primaryColor: #ff6e6e;
+    --secondaryColor: #6eafff;
+    --primaryText: #ffffff;
+    --secondHighlight: #f3f3f3;
+}
+
+.login-container {
+    background-color: #2a2a3d;
+    padding: 40px 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.logo span {
+    color: var(--primaryColor);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-form input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    background-color: var(--backgroundColor);
+    color: var(--primaryText);
+    outline: none;
+    transition: border 0.3s;
+}
+
+.login-form input:focus {
+    border-color: var(--primaryColor);
+}
+
+.login-form button {
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--primaryText);
+    background: linear-gradient(135deg, var(--primaryColor), var(--secondaryColor));
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.login-form button:hover {
+    background: linear-gradient(135deg, var(--secondaryColor), var(--primaryColor));
+    transform: scale(1.05);
+}
+
+.login-links {
+    margin-top: 20px;
+}
+
+.login-links a {
+    font-size: 0.9rem;
+    color: #cccccc;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.login-links a:hover {
+    color: var(--primaryColor);
+}

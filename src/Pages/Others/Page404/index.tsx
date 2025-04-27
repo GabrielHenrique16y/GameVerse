@@ -1,5 +1,5 @@
 import { JSX } from "react";
-import './page404.css'
+import './index.css'
 
 export default function Page404(): JSX.Element {
     return (
