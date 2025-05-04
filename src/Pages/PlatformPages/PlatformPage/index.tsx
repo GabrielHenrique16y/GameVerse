@@ -3,8 +3,8 @@ import { useEffect, useState, JSX, useCallback } from "react";
 import './index.css';
 import axios from 'axios';
 
-import PopularPlatforms from "../../../interface/PopularPlatforms";
-import Game from "../../../interface/Game";
+import PopularPlatforms from "../../../../interface/PopularPlatforms";
+import Game from "../../../../interface/Game";
 import Loading from "../../../components/Loading";
 
 
@@ -35,23 +35,26 @@ export default function PlatformPage(): JSX.Element {
     }, []);
 
     const getGamesByPlatform = async (platformId: number) => {
-        setLoading(true)
+        setLoading(true);
         try {
-            const response = await axios.post(`/api/games/exclusive`, {
-                id: platformId
+            const response = await axios.post('/api/games', {
+                action: 'exclusive',
+                payload: {
+                    id: platformId,
+                },
             });
             setGamesByPlatform(prev => ({
                 ...prev,
                 [platformId]: response.data,
             }));
             console.log(JSON.stringify(response.data, null, 2));
-            setLoading(false)
-
+            setLoading(false);
         } catch (e) {
             console.error(e);
-            setLoading(false)
+            setLoading(false);
         }
     };
+
 
     const renderStars = (rating: number) => {
         const maxStars = 5;
@@ -96,7 +99,7 @@ export default function PlatformPage(): JSX.Element {
                                         )}
                                         <h3>{game.name}</h3>
                                         <p>{game.summary?.slice(0, 100)}...</p>
-                                        <a href={`/details/${game.id}`}>Ver Mais</a>
+                                        <a className="btn" href={`/details/${game.id}`}>Ver Mais</a>
                                     </div>
                                 </div>
                             )) || <p>Carregando jogos...</p>}

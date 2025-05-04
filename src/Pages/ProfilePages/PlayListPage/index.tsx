@@ -1,32 +1,43 @@
 import { JSX, useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../../context/AuthContext";
-import Game from "../../../interface/Game";
+import Game from "../../../../interface/Game";
 import Loading from "../../../components/Loading";
+import { useParams } from "react-router-dom";
 
 export default function PlayListPage(): JSX.Element {
     const { user } = useAuth();
     const [games, setGames] = useState<Game[] | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const { id } = useParams()
 
-    useEffect(() => {
-        const getGames = async () => {
-            setLoading(true);
-            try {
+    const getGames = async () => {
+        setLoading(true);
+        try {
+            if(!id){
                 const response = await axios.post('/api/playlist/', {
                     user_id: user?.id
                 })
 
                 setGames(response.data)
                 setLoading(false);
-            } catch (e) {
-                console.error(e);
+            }else{
+                const response = await axios.post('/api/playlist/', {
+                    user_id: id
+                })
+
+                setGames(response.data)
                 setLoading(false);
             }
+        } catch (e) {
+            console.error(e);
+            setLoading(false);
         }
+    }
 
+    useEffect(() => {
         getGames();
-    }, [])
+    }, [id])
 
     const renderStars = (rating: number) => {
         const maxStars = 5;
@@ -34,17 +45,17 @@ export default function PlayListPage(): JSX.Element {
         const fullStars = Math.floor(starRating);
         const halfStar = starRating - fullStars >= 0.5;
         const emptyStars = maxStars - fullStars - (halfStar ? 1 : 0);
-    
+
         return (
             '★'.repeat(fullStars) +
-            (halfStar ? '⯪' : '') + 
+            (halfStar ? '⯪' : '') +
             '☆'.repeat(emptyStars)
         );
     };
 
-    
-    if(loading) return <Loading isLoading={loading} />
-    if(!games){
+
+    if (loading) return <Loading isLoading={loading} />
+    if (!games) {
         return <><h1>Jogo não encontrado</h1></>
     }
 
@@ -68,7 +79,7 @@ export default function PlayListPage(): JSX.Element {
                             )}
                             <h3>{game.name}</h3>
                             <p>{game.summary?.slice(0, 100)}...</p>
-                            <a href={`/details/${game.id}`}>Ver Mais</a>
+                            <a className="btn" href={`/details/${game.id}`}>Ver Mais</a>
                         </div>
                     ))
                 ) : (
@@ -76,6 +87,6 @@ export default function PlayListPage(): JSX.Element {
                 )}
             </div>
         </section>
-        
+
     )
 }

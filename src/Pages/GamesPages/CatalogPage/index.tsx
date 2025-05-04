@@ -1,10 +1,9 @@
 import { JSX, useCallback, useEffect, useState } from 'react';
-import './index.css';
 import axios from 'axios';
 import Loading from '../../../components/Loading';
 
-import Game from '../../../interface/Game';
-import Genres from '../../../interface/Genre';
+import Game from '../../../../interface/Game';
+import Genres from '../../../../interface/Genre';
 
 export default function CatalogPage(): JSX.Element {
     const [genres, setGenres] = useState<Genres[]>([]);
@@ -21,9 +20,10 @@ export default function CatalogPage(): JSX.Element {
         try {
             setLoading(true);
             const response = await axios.post('/api/games', {
-                name: searchQuery,
-                genre: selectedGenre,
+                action: 'byName',
+                payload: { name: searchQuery, genre: selectedGenre }
             });
+
             setGames(response.data);
             setLoading(false);
         } catch (e) {
@@ -124,7 +124,7 @@ export default function CatalogPage(): JSX.Element {
                                 )}
                                 <h3>{game.name}</h3>
                                 <p>{game.summary?.slice(0, 100)}...</p>
-                                <a href={`/details/${game.id}`}>Ver Mais</a>
+                                <a className='btn' href={`/details/${game.id}`}>Ver Mais</a>
                             </div>
                         ))
                     ) : (

@@ -1,0 +1,134 @@
+:root {
+    --cardBackground: #2a2a3d;
+    --backgroundColor: #1e1e2f;
+    --primaryColor: #ff6e6e;
+    --secondaryColor: #6eafff;
+    --primaryText: #ffffff;
+    --secondHighlight: #f3f3f3;
+}
+
+.title h1 {
+    color: #ff6e6e;
+    margin: 15px 0;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+}
+
+.search-container input {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid var(--secondaryColor);
+    border-radius: 5px;
+    background-color: var(--backgroundColor);
+    color: #ffffff;
+    outline: none;
+}
+
+.search-container input:focus {
+    border-color: var(--primaryColor);
+}
+
+.users-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 50px;
+}
+
+.card {
+    background-color: var(--cardBackground);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+.card svg {
+    border: 3px solid #6eafff;
+    border-radius: 50%;
+}
+
+.card h3 {
+    font-size: 1.2rem;
+    color: var(--secondaryColor);
+}
+
+.card p {
+    font-size: 0.9rem;
+    color: var(--primaryText);
+    margin-bottom: 10px;
+}
+
+.card .btn-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.card .btn-actions button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.card .btn-actions .View-btn {
+    background-color: #6eafff;
+    color: #ffffff;
+}
+
+.card .btn-actions .View-btn:hover {
+    background: #5a94d6;
+}
+
+.card .btn-actions .viewGamesBtn {
+    background: var(--primaryColor);
+    color: #ffffff;
+}
+
+.card .btn-actions .viewGamesBtn:hover {
+    background: #fa5e5e;
+}
+
+@media (max-width: 768px) {
+    .users-container {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        padding: 20px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .card svg {
+        width: 80px;
+        height: 80px;
+    }
+
+    .card h3 {
+        font-size: 1rem;
+    }
+
+    .card p {
+        font-size: 0.8rem;
+    }
+
+    .card .btn-actions button {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+}

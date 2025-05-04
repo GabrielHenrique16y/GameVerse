@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import jwt from 'jsonwebtoken';
 import supabase from '../_utils/databaseConnection';
-import { AuthedRequest } from '../src/interface/AuthedRequest';
+import { AuthedRequest } from '../interface/AuthedRequest';
 
 type TokenPayload = {
     id: number;

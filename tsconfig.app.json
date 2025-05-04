@@ -18,5 +18,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["api", "src", "_utils"]
+  "include": ["api", "src", "_utils", "interface"]
 }

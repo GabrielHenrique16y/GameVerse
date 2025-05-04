@@ -7,9 +7,9 @@ import './index.css';
 
 import Loading from "../../../components/Loading";
 
-import Game from '../../../interface/Game';
-import Video from '../../../interface/Video';
-import TypeLink from '../../../interface/Link';
+import Game from '../../../../interface/Game';
+import Video from '../../../../interface/Video';
+import TypeLink from '../../../../interface/Link';
 import { useAuth } from "../../../context/AuthContext";
 import { notifyError, notifySuccess, notifyWarning } from "../../../../_utils/toastMessage";
 
@@ -41,8 +41,10 @@ export default function GameDetails(): JSX.Element {
     useEffect(() => {
         const fetchGame = async () => {
             try {
-                const response = await axios.post(`/api/games/gameByid`, {
-                    id: id,
+                const response = await axios.post('/api/games', {
+                    action: 'byId',
+                    payload: { id: id },
+                }, {
                     headers: {
                         'Cache-Control': 'no-cache',
                     },
@@ -50,6 +52,7 @@ export default function GameDetails(): JSX.Element {
                         _t: Date.now(),
                     },
                 });
+
                 const gameData = response.data;
                 setGame(gameData);
                 await getLink(gameData.name);
@@ -84,7 +87,10 @@ export default function GameDetails(): JSX.Element {
             if (!game?.videos || game.videos.length === 0) return;
 
             try {
-                const response = await axios.post(`/api/games/video?id=${game.videos[0]}`);
+                const response = await axios.post('/api/games', {
+                    action: 'video',
+                    payload: { id: game.videos[0] },
+                });
                 setVideo(response.data);
             } catch {
                 notifyError('Erro ao carregar vídeo.', '❌');
@@ -114,6 +120,7 @@ export default function GameDetails(): JSX.Element {
     };
 
     const addToFavoritesBtn = async () => {
+        setLoading(true);
         try {
             if (!user) {
                 notifyWarning('Você precisa fazer login para adicionar aos favoritos', '⚠️')
@@ -126,8 +133,10 @@ export default function GameDetails(): JSX.Element {
                 notifySuccess('Jogo adicionado com sucesso!', '🎮');
                 navigate('/playlist')
             }
+            setLoading(false);
         } catch {
             notifyError('Erro ao adicionar aos favoritos.', '❌');
+            setLoading(false);
         }
     }
 

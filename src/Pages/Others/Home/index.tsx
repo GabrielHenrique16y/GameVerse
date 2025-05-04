@@ -5,7 +5,7 @@ import './index.css';
 import axios from 'axios';
 import Loading from "../../../components/Loading";
 
-import Game from "../../../interface/Game";
+import Game from "../../../../interface/Game";
 
 export default function Home(): JSX.Element {
     const [featuredGames, setFeaturedGames] = useState<Game[]>([]);
@@ -17,7 +17,10 @@ export default function Home(): JSX.Element {
         const fetchFeaturedGames = async () => {
             setLoading(true);
             try {
-                const response = await axios.post('/api/games/featuredGames');
+                const response = await axios.post('/api/games', {
+                    action: 'featured',
+                });
+
                 setFeaturedGames(response.data);
                 setLoading(false);
             } catch (e) {

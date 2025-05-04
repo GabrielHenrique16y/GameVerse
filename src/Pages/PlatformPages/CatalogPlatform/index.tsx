@@ -1,10 +1,9 @@
 import { JSX, useCallback, useEffect, useState } from 'react';
-import './index.css';
 import axios from 'axios';
 import Loading from '../../../components/Loading';
 
-import Game from '../../../interface/Game';
-import Genres from '../../../interface/Genre';
+import Game from '../../../../interface/Game';
+import Genres from '../../../../interface/Genre';
 import { useParams } from 'react-router-dom';
 
 export default function CatalogPage(): JSX.Element {
@@ -22,10 +21,13 @@ export default function CatalogPage(): JSX.Element {
     const fetchGames = useCallback(async () => {
         try {
             setLoading(true);
-            const response = await axios.post('/api/games/platform', {
-                name: searchQuery,
-                genre: selectedGenre,
-                id
+            const response = await axios.post('/api/games', {
+                action: 'byPlatform',
+                payload: {
+                    name: searchQuery,
+                    genre: selectedGenre,
+                    id: id,
+                },
             });
             setGames(response.data);
             setLoading(false);
@@ -34,7 +36,8 @@ export default function CatalogPage(): JSX.Element {
             setError('Erro ao carregar os jogos.');
             setLoading(false);
         }
-    }, [searchQuery, selectedGenre]);
+    }, [searchQuery, selectedGenre, id]);
+
 
     const getGenres = async () => {
         setLoading(true);
@@ -95,7 +98,7 @@ export default function CatalogPage(): JSX.Element {
                         value={searchInput}
                         placeholder="Pesquisar por nome do jogo..."
                         onChange={(e) => setSearchInput(e.target.value)}
-                        onKeyDown={handleSearch} 
+                        onKeyDown={handleSearch}
                     />
                     <select
                         value={selectedGenre}
@@ -127,7 +130,7 @@ export default function CatalogPage(): JSX.Element {
                                 )}
                                 <h3>{game.name}</h3>
                                 <p>{game.summary?.slice(0, 100)}...</p>
-                                <a href={`/details/${game.id}`}>Ver Mais</a>
+                                <a className='btn' href={`/details/${game.id}`}>Ver Mais</a>
                             </div>
                         ))
                     ) : (

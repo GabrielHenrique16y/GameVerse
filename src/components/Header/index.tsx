@@ -23,7 +23,7 @@ export default function Header(): JSX.Element {
 
     const logoutBtn = async() => {
         try{
-            await axios.post('/api/auth/logout');
+            await axios.post('/api/logout');
 
             Cookies.remove('token');
             Cookies.remove('user');
@@ -54,12 +54,15 @@ export default function Header(): JSX.Element {
                 <Link to="/">Home</Link>
                 <Link to="/catalog">Jogos</Link>
                 <Link to="/platforms">Plataformas</Link>
+                {user?.id ? (
+                    <Link to="/users">Usuários</Link>
+                ) : ''}
 
                 {user?.id ? (
                     <div className="user-dropdown mobile-only">
                         <span id="user-name">{user.nome}</span>
                         <div className="dropdown-menu">
-                            <Link to="#profile">Meu Perfil</Link>
+                            <Link to="/profile">Meu Perfil</Link>
                             <Link to="/playlist">Jogos favoritos</Link>
                             <Link to="#settings">Configurações</Link>
                             <Link to="#" onClick={logoutBtn} id="logout-btn">Sair</Link>
@@ -67,8 +70,8 @@ export default function Header(): JSX.Element {
                     </div>
                 ) : (
                     <div className="user-dropdown mobile-only">
-                        <Link to="/catalog">Login</Link>
-                        <Link to="/platforms">Cadastro</Link>
+                        <Link to="/login">Login</Link>
+                        <Link to="/register">Cadastro</Link>
                     </div>
                 )}
             </nav>
@@ -83,7 +86,7 @@ export default function Header(): JSX.Element {
                     <div className="user-dropdown">
                         <span id="user-name">{user.nome} <FaUserCircle size={'24px'}/> </span>
                         <div className="dropdown-menu">
-                            <Link to="#profile">Meu Perfil</Link>
+                            <Link to={`/profile/${user.id}`}>Meu Perfil</Link>
                             <Link to="/playlist">Jogos favoritos</Link>
                             <Link to="#settings">Configurações</Link>
                             <Link to="#" onClick={logoutBtn} id="logout-btn">Sair</Link>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperação de Senha</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>Recuperação de Senha</h1>
+        </div>
+        <div class="email-body">
+            <h2>Olá, ${user.name}</h2>
+            <p>Recebemos uma solicitação para redefinir a senha da sua conta. Caso não tenha sido você, por favor,
+                ignore este e-mail.</p>
+            <p>Se deseja redefinir sua senha, clique no botão abaixo:</p>
+            <a href="${resetLink}" target="_blank">Redefinir Senha</a>
+            <p>Este link é válido por 30 minutos. Após esse período, será necessário solicitar outra redefinição.</p>
+            <p>Caso tenha dúvidas, entre em contato com nossa equipe de suporte.</p>
+        </div>
+        <div class="email-footer">
+            <p>Atenciosamente, <br> Equipe GameVerse</p>
+            <p>Este é um e-mail automático. Não responda a esta mensagem.</p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,11 +1,3 @@
-:root {
-    --backgroundColor: #1e1e2f;
-    --primaryColor: #ff6e6e;
-    --secondaryColor: #6eafff;
-    --primaryText: #ffffff;
-    --secondHighlight: #f3f3f3;
-}
-
 a {
     text-decoration: none;
     color: inherit;

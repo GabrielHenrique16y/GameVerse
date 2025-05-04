@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import Cookies from 'js-cookie';
-import User from '../interface/User'; // ajusta o caminho conforme seu projeto
+import User from '../../interface/User';
 
 export interface AuthContextType {
     user: User | null;

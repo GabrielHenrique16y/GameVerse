@@ -26,30 +26,42 @@ export default function Register(): JSX.Element {
             setError('As senhas não estão iguais.');
             return;
         }
-        
+
         setLoading(true);
 
         try {
-            await axios.post('/api/auth/subscribe', {
-                name: username,
-                email,
-                password,
+            await axios.post('/api/auth', {
+                action: 'subscribe',
+                payload: {
+                    name: username,
+                    email,
+                    password,
+                }
             });
             setLoading(false);
             notifySuccess('Conta criada com sucesso!', '✅');
             navigate('/login')
-        } catch (err) {
-            notifyError('Erro ao registrar. Tente novamente.', '❌');
+
+        } catch (err: any) {
             console.log(err);
             setLoading(false);
+
+            if (err.response && err.response.data && err.response.data.errors) {
+                setError(err.response.data.errors.join(' '));
+            } else {
+                setError('Erro ao registrar. Tente novamente.');
+            }
+
+            notifyError('Erro ao registrar. Tente novamente.', '❌');
         }
+
     };
 
 
     return (
         <div className="center">
             <div className="register-container">
-                {error && <div className="error-message">{error}</div>} 
+                {error && <div className="error-message">{error}</div>}
                 <div className="logo">Game<span>Verse</span></div>
 
                 <form className="register-form" onSubmit={SubmitRegisterFn}>

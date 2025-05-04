@@ -33,8 +33,8 @@ const Login = () => {
 
         setLoading(true);
         try {
-            await axios.post("/api/auth/login", { email, password }, { withCredentials: true });
-
+            await axios.post("/api/auth", { action: 'login', payload: {email, password}}, { withCredentials: true });
+            
             const userData = JSON.parse(Cookies.get('user') || '{}');
             setUser(userData);
 
@@ -66,7 +66,7 @@ const Login = () => {
                 </form>
                 <div className="login-links">
                     <Link to="/register">Criar uma conta</Link> |
-                    <a href="#">Esqueceu a senha?</a>
+                    <Link to="/forgot-password">Esqueceu a senha?</Link>
                 </div>
             </div>
         </div>

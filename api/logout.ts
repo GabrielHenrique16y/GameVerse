@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { serialize } from 'cookie';
-import { loginRequired } from '../../_utils/loginRequired';
+import { loginRequired } from '../_utils/loginRequired';
 
 const handler = async (_req: VercelRequest, res: VercelResponse): Promise<void> => {
     const cookieOptions = {
