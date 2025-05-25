@@ -1,0 +1,16 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Roda a cada 6 horas
+  workflow_dispatch: # Permite executar manualmente
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Supabase "games" endpoint
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" "https://zlykucfviozonimrxazw.supabase.co/rest/v1/Games?limit=1" \
+          -H "apikey: ${{ secrets.SUPABASE_API_KEY }}"

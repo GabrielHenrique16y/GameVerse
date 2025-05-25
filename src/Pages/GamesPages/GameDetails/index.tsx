@@ -12,6 +12,7 @@ import Video from '../../../../interface/Video';
 import TypeLink from '../../../../interface/Link';
 import { useAuth } from "../../../context/AuthContext";
 import { notifyError, notifySuccess, notifyWarning } from "../../../../_utils/toastMessage";
+import renderStars from "../../../../_utils/renderStars";
 
 export default function GameDetails(): JSX.Element {
     const [game, setGame] = useState<Game | null>(null);
@@ -104,20 +105,6 @@ export default function GameDetails(): JSX.Element {
         ?.filter((c) => c.developer)
         .map((c) => c.company.name)
         .join(", ");
-
-    const renderStars = (rating: number) => {
-        const maxStars = 5;
-        const starRating = (rating / 100) * maxStars;
-        const fullStars = Math.floor(starRating);
-        const halfStar = starRating - fullStars >= 0.5;
-        const emptyStars = maxStars - fullStars - (halfStar ? 1 : 0);
-
-        return (
-            '★'.repeat(fullStars) +
-            (halfStar ? '⯪' : '') +
-            '☆'.repeat(emptyStars)
-        );
-    };
 
     const addToFavoritesBtn = async () => {
         setLoading(true);

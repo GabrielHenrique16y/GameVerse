@@ -4,6 +4,8 @@ import Loading from '../../../components/Loading';
 
 import Game from '../../../../interface/Game';
 import Genres from '../../../../interface/Genre';
+import CatalogComponent from '../../../components/CatalogComponent';
+import FilterComponent from '../../../components/FiltersComponents';
 
 export default function CatalogPage(): JSX.Element {
     const [genres, setGenres] = useState<Genres[]>([]);
@@ -62,20 +64,6 @@ export default function CatalogPage(): JSX.Element {
         setSearchQuery(searchInput);
     };
 
-    const renderStars = (rating: number) => {
-        const maxStars = 5;
-        const starRating = (rating / 100) * maxStars;
-        const fullStars = Math.floor(starRating);
-        const halfStar = starRating - fullStars >= 0.5;
-        const emptyStars = maxStars - fullStars - (halfStar ? 1 : 0);
-
-        return (
-            '★'.repeat(fullStars) +
-            (halfStar ? '⯪' : '') +
-            '☆'.repeat(emptyStars)
-        );
-    };
-
     if (loading) return <Loading isLoading={loading} />
 
     return (
@@ -86,51 +74,9 @@ export default function CatalogPage(): JSX.Element {
                     <p>Explore os jogos mais populares e descubra novos favoritos!</p>
                 </div>
 
-                <div className="catalog-filters">
-                    <input
-                        type="text"
-                        value={searchInput}
-                        placeholder="Pesquisar por nome do jogo..."
-                        onChange={(e) => setSearchInput(e.target.value)}
-                        onKeyDown={handleSearch} // detecta Enter
-                    />
-                    <select
-                        value={selectedGenre}
-                        onChange={handleGenreChange}
-                    >
-                        <option value="">Todos os Gêneros</option>
-                        {genres.map((genre: Genres) => (
-                            <option key={genre.name} value={genre.name}>
-                                {genre.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                <FilterComponent genres={genres} handleGenreChange={handleGenreChange} handleSearch={handleSearch} searchInput={searchInput} selectedGenre={selectedGenre} setSearchInput={setSearchInput}/>
 
-                <div className="catalog-grid">
-                    {error ? (
-                        <p>{error}</p>
-                    ) : games.length > 0 ? (
-                        games.map((game: Game) => (
-                            <div className="catalog-item" key={game.id}>
-                                <img
-                                    src={game.cover?.url.replace('t_thumb', 't_cover_big')}
-                                    alt={game.name}
-                                />
-                                {typeof game.rating === 'number' && (
-                                    <p className="rating">
-                                        {renderStars(game.rating)} ({game.rating.toFixed(1)})
-                                    </p>
-                                )}
-                                <h3>{game.name}</h3>
-                                <p>{game.summary?.slice(0, 100)}...</p>
-                                <a className='btn' href={`/details/${game.id}`}>Ver Mais</a>
-                            </div>
-                        ))
-                    ) : (
-                        <p>Nenhum jogo encontrado.</p>
-                    )}
-                </div>
+                <CatalogComponent games={games} error={error}/>
             </section>
         </>
     );
