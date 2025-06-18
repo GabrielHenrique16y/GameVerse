@@ -53,10 +53,18 @@ export default function CatalogPage(): JSX.Element {
         getGenres();
     }, [fetchGames]);
 
-    const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchInput(e.target.value);
+    };
+
+    const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            setSearchQuery(searchInput);
+            setSearchQuery(searchInput.trim());
         }
+    };
+
+    const handleSearchBlur = () => {
+        setSearchQuery(searchInput.trim());
     };
 
     const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -74,9 +82,17 @@ export default function CatalogPage(): JSX.Element {
                     <p>Explore os jogos mais populares e descubra novos favoritos!</p>
                 </div>
 
-                <FilterComponent genres={genres} handleGenreChange={handleGenreChange} handleSearch={handleSearch} searchInput={searchInput} selectedGenre={selectedGenre} setSearchInput={setSearchInput}/>
+                <FilterComponent
+                    genres={genres}
+                    handleGenreChange={handleGenreChange}
+                    searchInput={searchInput}
+                    setSearchInput={handleSearchInput}
+                    handleKeyDown={handleSearchKeyDown}
+                    handleBlur={handleSearchBlur}
+                    selectedGenre={selectedGenre}
+                />
 
-                <CatalogComponent games={games} error={error}/>
+                <CatalogComponent games={games} error={error} />
             </section>
         </>
     );

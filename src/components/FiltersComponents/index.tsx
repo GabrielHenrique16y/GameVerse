@@ -1,16 +1,32 @@
 import { JSX } from "react";
 import Genres from "../../../interface/Genre";
-import FilterProps from "../../../interface/FilterProps";
 
-export default function FilterComponent({ searchInput, setSearchInput, handleSearch, selectedGenre, handleGenreChange, genres }: FilterProps): JSX.Element {
+export default function FilterComponent({
+    searchInput,
+    setSearchInput,
+    handleKeyDown,
+    handleBlur,
+    selectedGenre,
+    handleGenreChange,
+    genres
+}: {
+    searchInput: string;
+    setSearchInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+    handleBlur: () => void;
+    selectedGenre: string;
+    handleGenreChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    genres: Genres[];
+}): JSX.Element {
     return (
         <div className="catalog-filters">
             <input
                 type="text"
                 value={searchInput}
                 placeholder="Pesquisar por nome do jogo..."
-                onChange={(e) => setSearchInput(e.target.value)}
-                onKeyDown={handleSearch}
+                onChange={setSearchInput}
+                onKeyDown={handleKeyDown}
+                onBlur={handleBlur}
             />
             <select
                 value={selectedGenre}
@@ -24,5 +40,5 @@ export default function FilterComponent({ searchInput, setSearchInput, handleSea
                 ))}
             </select>
         </div>
-    )
+    );
 }
