@@ -254,8 +254,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
                 try {
                     decoded = jwt.verify(payload.token, secret) as JwtPayload;
-                } catch (error) {
-                    console.error('Erro ao verificar token:', error);
+                } catch {
                     return res.status(400).json({ error: 'Token inválido ou expirado.' });
                 }
 
@@ -272,11 +271,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     .eq('email', email);
 
                 if (error) {
-                    console.error('Erro ao atualizar a senha:', error);
                     return res.status(500).json({ error: 'Erro ao atualizar a senha.' });
                 }
 
-                console.log(`Senha atualizada com sucesso para o usuário ${email}`);
                 return res.status(200).json({ message: 'Senha atualizada com sucesso!' });
             }
 
@@ -355,7 +352,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (error instanceof yup.ValidationError) {
             return res.status(400).json({ error: error.errors.join(", ") });
         }
-        console.error(error.response?.data || error);
         return res.status(500).json({ error: 'Erro interno no servidor.' });
     }
 }

@@ -29,8 +29,7 @@ export default function PlatformPage(): JSX.Element {
                 getGamesByPlatform(platform.id);
             });
             setLoading(false)
-        } catch (e) {
-            console.error(e);
+        } catch {
             setLoading(false)
         }
     }, []);
@@ -48,10 +47,8 @@ export default function PlatformPage(): JSX.Element {
                 ...prev,
                 [platformId]: response.data,
             }));
-            console.log(JSON.stringify(response.data, null, 2));
             setLoading(false);
-        } catch (e) {
-            console.error(e);
+        } catch {
             setLoading(false);
         }
     };

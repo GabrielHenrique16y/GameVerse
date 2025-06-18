@@ -43,7 +43,6 @@ export default function Register(): JSX.Element {
             navigate('/login')
 
         } catch (err: any) {
-            console.log(err);
             setLoading(false);
 
             if (err.response && err.response.data && err.response.data.errors) {

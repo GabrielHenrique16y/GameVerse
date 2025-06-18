@@ -68,7 +68,7 @@ export default function Profile(): JSX.Element {
         );
     };
 
-    const btnDelete = async(e: any) => {
+    const btnDelete = async(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
 
         await axios.post('api/auth', {

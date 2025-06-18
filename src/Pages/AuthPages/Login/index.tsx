@@ -48,7 +48,6 @@ const Login = () => {
             } else {
                 notifyError("Erro inesperado. Tente novamente.", '❌');
             }
-            console.error(err);
             setLoading(false);
         }
     };

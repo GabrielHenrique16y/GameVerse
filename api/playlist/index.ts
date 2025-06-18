@@ -37,8 +37,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
 
                 res.status(200).json(igdbResponse.data)
             }
-        } catch (error: any) {
-            console.error(error.response?.data || error);
+        } catch {
             res.status(500).json({ error: 'Erro na requisição ao IGDB' });
         }
     } else {

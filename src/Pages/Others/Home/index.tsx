@@ -23,8 +23,7 @@ export default function Home(): JSX.Element {
 
                 setFeaturedGames(response.data);
                 setLoading(false);
-            } catch (e) {
-                console.error(e);
+            } catch {
                 setError('Erro ao carregar jogos em destaque.');
                 setLoading(false);
             }
@@ -37,9 +36,10 @@ export default function Home(): JSX.Element {
         return <div>{error}</div>;
     }
 
+    if (loading) return <Loading isLoading={loading} />
+    
     return (
         <>
-            <Loading isLoading={loading} />
             <section className="hero" id="home">
                 <h1>Bem-vindo ao <span>GameVerse</span></h1>
                 <p>Explore o universo dos jogos com informações detalhadas sobre os seus favoritos.</p>

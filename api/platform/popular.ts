@@ -29,10 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         );
 
         res.json(response.data);
-    } catch (error) {
-        const axiosError = error as AxiosError;
-
-        console.error(axiosError.response?.data || axiosError.message);
+    } catch {
         res.status(500).json({ error: 'Erro ao buscar plataformas populares.' });
     }
 }

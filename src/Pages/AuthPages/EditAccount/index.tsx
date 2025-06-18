@@ -35,7 +35,7 @@ export default function EditAccount(): JSX.Element {
         }
 
         getData()
-    }, [])
+    }, [id])
 
     const SubmitEditAccountFn = async (e: FormEvent) => {
         e.preventDefault();
@@ -60,7 +60,6 @@ export default function EditAccount(): JSX.Element {
             const userData = JSON.parse(Cookies.get('user') || '{}');
             setUser(userData);
         } catch (err: any) {
-            console.log(err);
             setLoading(false);
 
             if (err.response && err.response.data && err.response.data.errors) {

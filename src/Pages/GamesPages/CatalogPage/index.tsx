@@ -28,8 +28,7 @@ export default function CatalogPage(): JSX.Element {
 
             setGames(response.data);
             setLoading(false);
-        } catch (e) {
-            console.error(e);
+        } catch {
             setError('Erro ao carregar os jogos.');
             setLoading(false);
         }
@@ -41,8 +40,7 @@ export default function CatalogPage(): JSX.Element {
             const response = await axios.post('/api/genres');
             setGenres(response.data);
             setLoading(false);
-        } catch (e) {
-            console.error(e);
+        } catch {
             setError('Erro ao carregar os gêneros.');
             setLoading(false);
         }

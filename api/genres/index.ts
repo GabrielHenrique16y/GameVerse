@@ -26,7 +26,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         res.json(response.data);
     } catch (error: any) {
-        console.error(error);
         res.status(500).json({ error: 'Erro na requisição ao IGDB', details: error.message });
     }
 }

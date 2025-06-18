@@ -27,7 +27,6 @@ export default function ForgotPassword(): JSX.Element {
             setLoading(false);
             notifySuccess('Email enviado com sucesso!', '✅');
         } catch (err: any) {
-            console.log(err);
             setLoading(false);
         
             if (err.response && err.response.data && err.response.data.errors) {
@@ -40,7 +39,6 @@ export default function ForgotPassword(): JSX.Element {
         }
         
     };
-
 
     return (
         <div className="center">

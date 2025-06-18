@@ -177,7 +177,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (error instanceof yup.ValidationError) {
             return res.status(400).json({ error: error.errors.join(", ") });
         }
-        console.error(error.response?.data || error);
         return res.status(500).json({ error: 'Erro interno no servidor.' });
     }
 }

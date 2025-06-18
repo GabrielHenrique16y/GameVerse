@@ -29,8 +29,7 @@ export default function PlayListPage(): JSX.Element {
                 setGames(response.data)
                 setLoading(false);
             }
-        } catch (e) {
-            console.error(e);
+        } catch {
             setLoading(false);
         }
     }
