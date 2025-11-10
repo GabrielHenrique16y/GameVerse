@@ -177,7 +177,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (error instanceof yup.ValidationError) {
             return res.status(400).json({ error: error.errors.join(", ") });
         }
-        return res.status(500).json({ error: `Erro interno no servidor ${error} ${process.env.IGDB_ACCESS_TOKEN}` });
+        return res.status(500).json({ error: `Erro interno no servidor ${error}` });
     }
 }
 
