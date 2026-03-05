@@ -54,9 +54,6 @@ export default function Header(): JSX.Element {
                 <Link to="/">Home</Link>
                 <Link to="/catalog">Jogos</Link>
                 <Link to="/platforms">Plataformas</Link>
-                {user?.id ? (
-                    <Link to="/users">Usuários</Link>
-                ) : ''}
 
                 {user?.id ? (
                     <div className="user-dropdown mobile-only">

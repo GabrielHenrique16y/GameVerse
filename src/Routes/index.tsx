@@ -15,13 +15,11 @@ import ForgotPassword from '../Pages/AuthPages/ForgotPassword';
 import ResetPassword from '../Pages/AuthPages/ResetPassword';
 import Profile from '../Pages/ProfilePages/Profile';
 import EditAccount from '../Pages/AuthPages/EditAccount';
-import Users from '../Pages/Others/Users';
 
 export default function AppRoutes() {
     return (
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/users" element={<Users />} />
 
             <Route path="/catalog" element={<CatalogPage />} />
             <Route path="/details/:id" element={<GameDetails />} />
